@@ -15,11 +15,19 @@ export default defineConfig({
         {
           src: 'sw.js',
           dest: '.'
+        },
+        {
+          src: '_redirects',
+          dest: '.'
+        },
+        {
+          src: '_headers',
+          dest: '.'
         }
       ]
     })
   ],
-  // Base must be './' for GitHub Pages relative hosting to work correctly on sub-paths
+  // Base must be './' for relative hosting to work correctly on sub-paths
   base: './', 
   build: {
     outDir: 'dist',

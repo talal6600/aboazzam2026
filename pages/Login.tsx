@@ -14,14 +14,18 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="app-shell" style={{ justifyContent: 'center' }}>
-      <div className="card" style={{ width: 'min(420px, 100%)', margin: '0 auto' }}>
+    <div className="app-shell auth-shell">
+      <div className="card auth-card">
         <form onSubmit={submit} className="page-stack">
-          <div>
-            <p className="eyebrow">نظام المبيعات</p>
-            <h2 style={{ margin: '4px 0 8px' }}>تسجيل الدخول</h2>
-            <p className="meta">استخدم بيانات المشرف الافتراضية: admin / password</p>
+          <div className="auth-header">
+            <div>
+              <p className="eyebrow">نظام المبيعات</p>
+              <h2 style={{ margin: '4px 0 4px' }}>تسجيل الدخول</h2>
+              <p className="meta" style={{ margin: 0 }}>أهلاً بك في مساحة العمل المحمية الخاصة بك</p>
+            </div>
+            <span className="chip chip-success">دخول آمن</span>
           </div>
+          <p className="meta">استخدم بيانات المشرف الافتراضية: admin / password</p>
           <div className="field">
             <label>اسم المستخدم</label>
             <input value={username} onChange={(e) => setUsername(e.target.value)} required />

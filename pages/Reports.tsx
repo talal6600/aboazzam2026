@@ -6,15 +6,10 @@ export const Reports: React.FC = () => {
   const { transactions, removeTransaction } = useData();
 
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.02)',
-      border: '1px solid rgba(255,255,255,0.08)',
-      borderRadius: '14px',
-      padding: '16px',
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+    <div className="card-section">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <h3 style={{ margin: 0 }}>التقارير التفصيلية</h3>
-        <span style={{ color: '#94a3b8' }}>{transactions.length} عملية</span>
+        <span className="meta">{transactions.length} عملية</span>
       </div>
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'right' }}>
@@ -30,7 +25,9 @@ export const Reports: React.FC = () => {
           <tbody>
             {transactions.length === 0 && (
               <tr>
-                <td colSpan={5} style={{ padding: '12px', color: '#94a3b8' }}>لا توجد بيانات</td>
+                <td colSpan={5} style={{ padding: '12px', color: '#94a3b8' }}>
+                  لا توجد بيانات
+                </td>
               </tr>
             )}
             {transactions.map((t) => (
@@ -40,10 +37,7 @@ export const Reports: React.FC = () => {
                 <td style={{ padding: '10px' }}>{t.quantity}</td>
                 <td style={{ padding: '10px' }}>{t.amount.toFixed(2)}</td>
                 <td style={{ padding: '10px' }}>
-                  <button
-                    onClick={() => removeTransaction(t.id)}
-                    style={{ border: 'none', background: 'transparent', color: '#f87171', cursor: 'pointer' }}
-                  >
+                  <button className="danger-btn" onClick={() => removeTransaction(t.id)}>
                     حذف
                   </button>
                 </td>

@@ -20,98 +20,74 @@ export const Fuel: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-      <div style={{
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: '14px',
-        padding: '16px',
-      }}>
+    <div className="split-grid">
+      <div className="card-section">
         <h3 style={{ marginTop: 0 }}>تسجيل وقود جديد</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '8px' }}>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span>التاريخ</span>
-            <input
-              type="date"
-              value={form.date}
-              onChange={(e) => setForm({ ...form, date: e.target.value })}
-              style={{ padding: '10px', borderRadius: '10px' }}
-            />
-          </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span>نوع الوقود</span>
+        <div className="form-grid">
+          <div className="field">
+            <label>التاريخ</label>
+            <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} />
+          </div>
+          <div className="field">
+            <label>نوع الوقود</label>
             <select
               value={form.fuelType}
               onChange={(e) => setForm({ ...form, fuelType: e.target.value as FuelLog['fuelType'] })}
-              style={{ padding: '10px', borderRadius: '10px' }}
             >
               <option value="91">{FUEL_LABELS['91']}</option>
               <option value="95">{FUEL_LABELS['95']}</option>
               <option value="diesel">{FUEL_LABELS.diesel}</option>
             </select>
-          </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span>المبلغ (ر.س)</span>
+          </div>
+          <div className="field">
+            <label>المبلغ (ر.س)</label>
             <input
               type="number"
               value={form.amount}
               onChange={(e) => setForm({ ...form, amount: Number(e.target.value) })}
               min={0}
-              style={{ padding: '10px', borderRadius: '10px' }}
             />
-          </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span>اللترات</span>
+          </div>
+          <div className="field">
+            <label>اللترات</label>
             <input
               type="number"
               value={form.liters}
               onChange={(e) => setForm({ ...form, liters: Number(e.target.value) })}
               min={0}
-              style={{ padding: '10px', borderRadius: '10px' }}
             />
-          </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span>قراءة العداد (كم)</span>
+          </div>
+          <div className="field">
+            <label>قراءة العداد (كم)</label>
             <input
               type="number"
               value={form.km}
               onChange={(e) => setForm({ ...form, km: Number(e.target.value) })}
               min={0}
-              style={{ padding: '10px', borderRadius: '10px' }}
             />
-          </label>
+          </div>
         </div>
-        <button onClick={submit} style={{ marginTop: '12px', padding: '12px', borderRadius: '12px', background: '#0ea5e9', color: 'white', border: 'none', width: '100%', fontWeight: 700 }}>
+        <button className="primary-btn" onClick={submit} style={{ marginTop: 12 }}>
           إضافة السجل
         </button>
       </div>
 
-      <div style={{
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: '14px',
-        padding: '16px',
-        maxHeight: '520px',
-        overflowY: 'auto',
-      }}>
+      <div className="card-section" style={{ maxHeight: 520, overflowY: 'auto' }}>
         <h3 style={{ marginTop: 0 }}>السجلات السابقة</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {fuelLogs.length === 0 && <span style={{ color: '#94a3b8' }}>لا توجد سجلات</span>}
+        <div className="list-stack">
+          {fuelLogs.length === 0 && <span className="meta">لا توجد سجلات</span>}
           {fuelLogs.map((log) => (
-            <div key={log.id} style={{ padding: '10px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)' }}>
+            <div key={log.id} className="list-card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <strong>{FUEL_LABELS[log.fuelType]}</strong>
-                  <div style={{ color: '#94a3b8', fontSize: '12px' }}>{new Date(log.date).toLocaleString('ar-SA')}</div>
+                  <div className="meta">{new Date(log.date).toLocaleString('ar-SA')}</div>
                 </div>
-                <button
-                  onClick={() => removeFuelLog(log.id)}
-                  style={{ border: 'none', background: 'transparent', color: '#f87171', cursor: 'pointer' }}
-                >
+                <button className="danger-btn" onClick={() => removeFuelLog(log.id)}>
                   حذف
                 </button>
               </div>
-              <div style={{ color: '#94a3b8', fontSize: '12px', marginTop: '4px' }}>
+              <div className="meta" style={{ marginTop: 4 }}>
                 {log.liters} لتر | {log.amount.toFixed(2)} ر.س | {log.km} كم
               </div>
             </div>

@@ -16,35 +16,29 @@ export const Inventory: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-      <div style={{
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: '14px',
-        padding: '16px',
-      }}>
+    <div className="split-grid">
+      <div className="card-section">
         <h3 style={{ marginTop: 0 }}>إدارة المخزون</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '12px' }}>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span>نوع الشريحة</span>
-            <select value={type} onChange={(e) => setType(e.target.value as SimType)} style={{ padding: '10px', borderRadius: '10px' }}>
+        <div className="form-grid" style={{ marginBottom: 12 }}>
+          <div className="field">
+            <label>نوع الشريحة</label>
+            <select value={type} onChange={(e) => setType(e.target.value as SimType)}>
               <option value="jawwy">{SIM_LABELS.jawwy}</option>
               <option value="sawa">{SIM_LABELS.sawa}</option>
               <option value="multi">{SIM_LABELS.multi}</option>
             </select>
-          </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span>الكمية</span>
+          </div>
+          <div className="field">
+            <label>الكمية</label>
             <input
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
               min={1}
-              style={{ padding: '10px', borderRadius: '10px' }}
             />
-          </label>
+          </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: '8px', marginBottom: '12px' }}>
+        <div className="button-row" style={{ marginBottom: 12 }}>
           {[
             { key: 'add', label: 'إضافة' },
             { key: 'return_company', label: 'إرجاع' },
@@ -55,57 +49,43 @@ export const Inventory: React.FC = () => {
             <button
               key={btn.key}
               onClick={() => setAction(btn.key as StockLog['action'])}
-              style={{
-                padding: '10px',
-                borderRadius: '12px',
-                border: action === btn.key ? '2px solid #0ea5e9' : '1px solid rgba(255,255,255,0.08)',
-                background: 'rgba(255,255,255,0.03)',
-                color: '#e2e8f0',
-                cursor: 'pointer',
-              }}
+              className={`ghost-btn ${action === btn.key ? 'active' : ''}`}
+              style={{ borderColor: action === btn.key ? 'rgba(14,165,233,0.8)' : undefined }}
             >
               {btn.label}
             </button>
           ))}
         </div>
-        <button onClick={submit} style={{ padding: '12px', borderRadius: '12px', background: '#0ea5e9', color: 'white', border: 'none', width: '100%', fontWeight: 700 }}>
+        <button className="primary-btn" onClick={submit} style={{ width: '100%' }}>
           حفظ الحركة
         </button>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px', marginTop: '16px' }}>
+        <div className="items-grid" style={{ marginTop: 16 }}>
           {(['jawwy', 'sawa', 'multi'] as const).map((sim) => (
-            <div key={sim} style={{ padding: '12px', borderRadius: '12px', background: 'rgba(255,255,255,0.03)' }}>
-              <div style={{ color: '#94a3b8', fontSize: '12px' }}>{SIM_LABELS[sim]}</div>
-              <div style={{ fontSize: '20px', fontWeight: 800 }}>{stock[sim]} متاح</div>
-              <div style={{ fontSize: '12px', color: '#f97316' }}>{damaged[sim]} تالف</div>
+            <div key={sim} className="list-card">
+              <div className="meta">{SIM_LABELS[sim]}</div>
+              <div style={{ fontSize: 20, fontWeight: 800 }}>{stock[sim]} متاح</div>
+              <div style={{ fontSize: 12, color: '#f97316' }}>{damaged[sim]} تالف</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: '14px',
-        padding: '16px',
-        maxHeight: '520px',
-        overflowY: 'auto',
-      }}>
+      <div className="card-section" style={{ maxHeight: 520, overflowY: 'auto' }}>
         <h3 style={{ marginTop: 0 }}>سجل المخزون</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {stockLogs.length === 0 && <span style={{ color: '#94a3b8' }}>لا توجد سجلات</span>}
+        <div className="list-stack">
+          {stockLogs.length === 0 && <span className="meta">لا توجد سجلات</span>}
           {stockLogs.map((log) => (
-            <div key={log.id} style={{
-              padding: '10px',
-              borderRadius: '10px',
-              background: 'rgba(255,255,255,0.03)',
-              borderLeft: `4px solid ${SIM_COLORS[log.type]}`,
-            }}>
+            <div
+              key={log.id}
+              className="list-card"
+              style={{ borderRight: `4px solid ${SIM_COLORS[log.type]}` }}
+            >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <strong>{SIM_LABELS[log.type]}</strong>
-                <span style={{ color: '#94a3b8', fontSize: '12px' }}>{new Date(log.date).toLocaleString('ar-SA')}</span>
+                <span className="meta">{new Date(log.date).toLocaleString('ar-SA')}</span>
               </div>
-              <div style={{ color: '#94a3b8', fontSize: '12px', marginTop: '4px' }}>
+              <div className="meta" style={{ marginTop: 4 }}>
                 {log.quantity} شريحة | نوع الإجراء: {log.action}
               </div>
             </div>
